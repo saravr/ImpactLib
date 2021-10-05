@@ -24,14 +24,18 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
     private var deltaX = 0f
     private var deltaY = 0f
     private var deltaZ = 0f
-    private var vibrateThreshold = 0f
+    private var reportingThreshold = 0f
+
+    var noiseThreshold = DEFAULT_NOISE_THRESHOLD
 
     companion object {
         private const val TAG = "ImpactMotionClassifier"
+        private const val DEFAULT_NOISE_THRESHOLD = 0.05
     }
+
     init {
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
-            vibrateThreshold = 0.00f//     it.maximumRange / 2
+            reportingThreshold = 0.00f//     it.maximumRange / 2
         }
     }
 
@@ -56,11 +60,10 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
         deltaY = abs(lastY - event.values[1])
         deltaZ = abs(lastZ - event.values[2])
 
-        val threshold = 0.005
-        // if the change is below 2, it is just plain noise
-        if (deltaX < threshold) deltaX = 0f
-        if (deltaY < threshold) deltaY = 0f
-        if (deltaZ < threshold) deltaZ = 0f
+        // if the change is below noiseThreshold, it is just plain noise
+        if (deltaX < noiseThreshold) deltaX = 0f
+        if (deltaY < noiseThreshold) deltaY = 0f
+        if (deltaZ < noiseThreshold) deltaZ = 0f
 
         // set the last know values of x,y,z
         lastX = event.values[0]
@@ -75,7 +78,7 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
 
     private fun reportMovement() {
         //Log.d(TAG, "++++ EVENT, $deltaX, $deltaY, $deltaZ, $vibrateThreshold")
-        if (deltaX > vibrateThreshold || deltaY > vibrateThreshold || deltaZ > vibrateThreshold) {
+        if (deltaX > reportingThreshold || deltaY > reportingThreshold || deltaZ > reportingThreshold) {
             val onUIThread = Looper.myLooper() == Looper.getMainLooper()
             Log.d(TAG, "++++ REPORT MOVEMENT: $deltaX / $deltaY / $deltaZ - [onUIThread $onUIThread]")
             notifier.reportMotionEvent(MotionData(deltaX, deltaY, deltaZ))

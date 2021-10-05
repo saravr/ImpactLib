@@ -2,9 +2,11 @@ package com.sandymist.impactlib
 
 import android.content.Context
 import android.media.AudioRecord
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.os.HandlerCompat
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier
 
@@ -22,8 +24,10 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
         handler = HandlerCompat.createAsync(handlerThread.looper)
     }
 
+    @Suppress("unused")
     fun isAudioClassifierRunning() = (audioClassifier != null)
 
+    @Suppress("unused")
     fun startAudioClassifier() {
         // If the audio classifier is initialized and running, do nothing.
         if (audioClassifier != null) return
@@ -38,6 +42,7 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
 
         // Define the classification runnable
         val run = object : Runnable {
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun run() {
                 //val startTime = System.currentTimeMillis()
 
@@ -74,6 +79,7 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
         audioRecord = record
     }
 
+    @Suppress("unused")
     fun stopAudioClassifier() {
         handler.removeCallbacksAndMessages(null)
         audioRecord?.stop()
@@ -82,6 +88,7 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
     }
 
     companion object {
+        @Suppress("unused")
         const val REQUEST_RECORD_AUDIO = 1337
         private const val TAG = "ImpactAudioClassifier"
         private const val MODEL_FILE = "yamnet.tflite"
