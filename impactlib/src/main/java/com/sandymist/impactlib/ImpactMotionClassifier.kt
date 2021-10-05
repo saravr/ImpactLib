@@ -9,6 +9,12 @@ import android.os.Looper
 import android.util.Log
 import kotlin.math.abs
 
+data class MotionData(
+    val deltaX: Float,
+    val deltaY: Float,
+    val deltaZ: Float
+)
+
 class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotionNotifier): SensorEventListener {
     private var sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private var accelerometerSensor: Sensor? = null
@@ -29,12 +35,14 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
         }
     }
 
+    @Suppress("unused")
     fun startMotionClassifier() {
         accelerometerSensor.also {
             sensorManager.registerListener(this, it, 30000000)//SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
+    @Suppress("unused")
     fun stopMotionClassifier() {
         sensorManager.unregisterListener(this)
     }
@@ -69,12 +77,12 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
         //Log.d(TAG, "++++ EVENT, $deltaX, $deltaY, $deltaZ, $vibrateThreshold")
         if (deltaX > vibrateThreshold || deltaY > vibrateThreshold || deltaZ > vibrateThreshold) {
             val onUIThread = Looper.myLooper() == Looper.getMainLooper()
-            Log.d(TAG, "++++ REPORT MOVEMENT - onUIThread $onUIThread")
-            notifier.reportMotionEvent("$deltaX / $deltaY / $deltaZ")
+            Log.d(TAG, "++++ REPORT MOVEMENT: $deltaX / $deltaY / $deltaZ - [onUIThread $onUIThread]")
+            notifier.reportMotionEvent(MotionData(deltaX, deltaY, deltaZ))
         }
     }
 }
 
 interface ImpactMotionNotifier {
-    fun reportMotionEvent(motionEvent: String)
+    fun reportMotionEvent(motionData: MotionData)
 }
