@@ -57,14 +57,14 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
         //Log.d(TAG, "+++++ SENSOR CHANGED: $values")
 
         // get the change of the x,y,z values of the accelerometer
-        deltaX = abs(lastX - event.values[0])
-        deltaY = abs(lastY - event.values[1])
-        deltaZ = abs(lastZ - event.values[2])
+        deltaX = lastX - event.values[0]
+        deltaY = lastY - event.values[1]
+        deltaZ = lastZ - event.values[2]
 
         // if the change is below noiseThreshold, it is just plain noise
-        if (deltaX < noiseThreshold) deltaX = 0f
-        if (deltaY < noiseThreshold) deltaY = 0f
-        if (deltaZ < noiseThreshold) deltaZ = 0f
+        if (abs(deltaX) < noiseThreshold) deltaX = 0f
+        if (abs(deltaY) < noiseThreshold) deltaY = 0f
+        if (abs(deltaZ) < noiseThreshold) deltaZ = 0f
 
         // set the last know values of x,y,z
         lastX = event.values[0]
@@ -79,7 +79,7 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
 
     private fun reportMovement() {
         //Log.d(TAG, "++++ EVENT, $deltaX, $deltaY, $deltaZ, $vibrateThreshold")
-        if (deltaX > reportingThreshold || deltaY > reportingThreshold || deltaZ > reportingThreshold) {
+        if (abs(deltaX) > reportingThreshold || abs(deltaY) > reportingThreshold || abs(deltaZ) > reportingThreshold) {
             val onUIThread = Looper.myLooper() == Looper.getMainLooper()
             Log.d(TAG, "++++ REPORT MOVEMENT: $deltaX / $deltaY / $deltaZ - [onUIThread $onUIThread]")
             notifier.reportMotionEvent(MotionData(deltaX, deltaY, deltaZ))
