@@ -24,7 +24,8 @@ class ImpactMotionClassifier(context: Context, private val notifier: ImpactMotio
     private var deltaX = 0f
     private var deltaY = 0f
     private var deltaZ = 0f
-    private var reportingThreshold = 0f
+
+    var reportingThreshold = 0f
 
     var noiseThreshold = DEFAULT_NOISE_THRESHOLD
 
