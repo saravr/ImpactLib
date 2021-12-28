@@ -1,4 +1,4 @@
-package com.sandymist.impactlib
+package com.sensorapp.impactlib
 
 import android.content.Context
 import android.hardware.Sensor

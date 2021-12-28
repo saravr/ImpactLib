@@ -1,4 +1,4 @@
-package com.sandymist.impactlib
+package com.sensorapp.impactlib
 
 import android.Manifest
 import android.content.pm.PackageManager
