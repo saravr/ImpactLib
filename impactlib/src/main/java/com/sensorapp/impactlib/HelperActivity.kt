@@ -1,24 +1,29 @@
 package com.sensorapp.impactlib
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-open class PermissionActivity: AppCompatActivity() {
+open class HelperActivity: AppCompatActivity() {
     companion object {
         private const val TAG = "PermissionActivity"
         const val REQUEST_RECORD_AUDIO = 100
     }
 
+    @Suppress("unused")
     protected fun isMicrophonePermissionGranted(): Boolean {
         val requiredPermission = Manifest.permission.RECORD_AUDIO
         return checkCallingOrSelfPermission(requiredPermission) == PackageManager.PERMISSION_GRANTED
     }
 
+    @Suppress("unused")
     @RequiresApi(Build.VERSION_CODES.M)
     protected fun requestMicrophonePermission() {
         if (ContextCompat.checkSelfPermission(this,
@@ -51,5 +56,13 @@ open class PermissionActivity: AppCompatActivity() {
     }
 
     open fun onMicrophonePermissionDenied() {
+    }
+
+    @Suppress("unused")
+    fun launchActivityOnButtonClick(activity: Activity, buttonId: Int, activityClass: Class<out Activity>) {
+        activity.findViewById<Button>(buttonId).setOnClickListener {
+            val intent = Intent(activity, activityClass)
+            activity.startActivity(intent)
+        }
     }
 }
