@@ -24,6 +24,11 @@ public class SinglePlot {
     private final int lineColor;
 
     @SuppressWarnings("unused")
+    public SinglePlot(LineChart lineChart, String plotDescription, String plotLabel, int plotLineColor) {
+        this(lineChart, plotDescription, plotLabel, plotLineColor, new PlotConfig());
+    }
+
+    @SuppressWarnings("unused")
     public SinglePlot(LineChart lineChart, String plotDescription, String plotLabel, int plotLineColor, PlotConfig plotConfig) {
         chart = lineChart;
         config = plotConfig;
