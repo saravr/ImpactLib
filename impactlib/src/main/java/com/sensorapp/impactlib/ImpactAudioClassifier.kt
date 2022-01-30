@@ -36,11 +36,11 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
         // If the audio classifier is initialized and running, do nothing.
         if (audioClassifier != null) return
 
+        //mMediaRecorder.setMaxDuration(MAX_LENGTH)
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         /* Set the audio file encoding: AAC/AMR_NB/AMR_MB/Default Sampling (waveform) of the sound */
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
-        val outputFile = context.filesDir.absolutePath + "/test.3gp"
-        mediaRecorder.setOutputFile(outputFile)
+
         /*
          * Set the output file format: THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP (3gp format,
          * H263 video/ARM audio encoding), MPEG-4, RAW_AMR (only supports audio and audio encoding requires AMR_NB)
@@ -48,7 +48,12 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
         //mMediaRecorder.setMaxDuration(MAX_LENGTH)
+
+        val outputFile = context.filesDir.absolutePath + "/test.3gp"
+        mediaRecorder.setOutputFile(outputFile)
+
         mediaRecorder.prepare()
+
         mediaRecorder.start()
 
         // Initialize the audio classifier
@@ -102,6 +107,7 @@ class ImpactAudioClassifier(private val context: Context, private val notifier: 
 
     @Suppress("unused")
     fun stopAudioClassifier() {
+        mediaRecorder.reset()
         handler.removeCallbacksAndMessages(null)
         audioRecord?.stop()
         audioRecord = null
