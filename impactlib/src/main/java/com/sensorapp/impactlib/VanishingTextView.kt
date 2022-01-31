@@ -23,10 +23,17 @@ class VanishingTextView @JvmOverloads constructor(
         visibility = VISIBLE
 
         if (runnable == null) {
-            runnable = Runnable { visibility = INVISIBLE }
+            runnable = Runnable {
+                visibility = INVISIBLE
+            }
         }
-        if (future == null || future?.isDone == true) {
-            future = scheduledExecutorService!!.schedule(runnable, delayInMs, TimeUnit.MILLISECONDS)
-        }
+
+        future?.cancel(true)
+        future = scheduledExecutorService?.schedule(runnable, delayInMs, TimeUnit.MILLISECONDS)
+    }
+
+    fun cancel() {
+        future?.cancel(true)
+        scheduledExecutorService?.shutdown()
     }
 }
