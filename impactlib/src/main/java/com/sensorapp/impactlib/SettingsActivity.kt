@@ -9,9 +9,12 @@ class SettingsActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val settingsFragment = SettingsFragment.newInstance(intent.extras)
+        settingsFragment.arguments = intent.extras
+
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fl_container, SettingsFragment())
+            .replace(R.id.fl_container, settingsFragment)
             .commit()
     }
 }

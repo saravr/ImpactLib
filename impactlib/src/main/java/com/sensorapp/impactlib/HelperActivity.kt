@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 open class HelperActivity: AppCompatActivity() {
+    val prefItems = arrayListOf<PrefItem>()
 
     companion object {
         private const val TAG = "PermissionActivity"
@@ -29,6 +30,7 @@ open class HelperActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.SettingsFragment) {
             val intent = Intent(this, SettingsActivity::class.java)
+            intent.putExtra("PREFS", prefItems)
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
