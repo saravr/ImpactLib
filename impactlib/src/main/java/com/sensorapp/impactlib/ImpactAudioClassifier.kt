@@ -15,7 +15,6 @@ import org.tensorflow.lite.task.audio.classifier.AudioClassifier
 
 class ImpactAudioClassifier(private val context: Context, private val notifier: ImpactAudioNotifier) {
     private var mediaRecorder = MediaRecorder()
-    private var mediaRecorderStarted = false
     private var audioClassifier: AudioClassifier? = null
     private var audioRecord: AudioRecord? = null
     private var classificationInterval = 500L // how often should classification run in milli-secs
