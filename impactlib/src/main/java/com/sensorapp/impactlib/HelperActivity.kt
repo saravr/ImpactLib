@@ -6,15 +6,32 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 open class HelperActivity: AppCompatActivity() {
+
     companion object {
         private const val TAG = "PermissionActivity"
         const val REQUEST_RECORD_AUDIO = 100
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.SettingsFragment) {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @Suppress("unused")

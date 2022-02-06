@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ImpactLib"
 include ':impactlib'
+include ':app'

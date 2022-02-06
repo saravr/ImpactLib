@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:hint="In microseconds"
+        app:key="threshold"
+        app:title="Threshold"
+        app:defaultValue="0.1"
+        app:useSimpleSummaryProvider="true"
+        />
+
+</PreferenceScreen>
